@@ -10,6 +10,7 @@ class BookingsController < ApplicationController
   def new
     @book_room = Booking.new
     @meeting_rooms_lists = MeetingRoom.all
+    @employees_list = User.all
   end
 
   def create
@@ -32,6 +33,24 @@ class BookingsController < ApplicationController
       .where("starts_at >= ? AND starts_at <= ?", Time.current.beginning_of_day,Time.current.end_of_day)
       .order(:starts_at)
     render :index
+  end
+
+  def list
+    @booked_room_list = Booking.where("starts_at >= ? AND starts_at <= ?", params[:start],params[:end])
+    .order(:starts_at).includes(:user)
+    events = []
+    @booked_room_list.each do |booked_room|
+      events << { :title => "#{booked_room.agenda.try(:titleize)} :: Booked By #{booked_room.user.try(:name).try(:titleize)}", :start => "#{booked_room.starts_at}",:end => "#{booked_room.ends_at}",  resources: "#{booked_room.meeting_room_id}" }
+    end
+    render :text => events.to_json
+  end
+
+  def meating_rooms
+    rooms = []
+    MeetingRoom.all.each do |room|
+      rooms << {id: room.id, name: "#{room.name.titleize}" }
+    end
+    render :text => rooms.to_json
   end
 
   private

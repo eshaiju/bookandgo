@@ -14,9 +14,22 @@
  *= require custom
  *= require simple-sidebar
  *= require dataTables.bootstrap.min
+ *= require fullcalendar.min
  */
 
  @import "bootstrap-sprockets";
  @import "bootstrap";
  @import 'bootstrap-datetimepicker';
  @import 'bootstrap-multiselect';
+
+ #calendar {
+		max-width: 900px;
+		margin: 0 auto;
+	}
+
+body {
+		margin: 40px 10px;
+		padding: 0;
+		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+		font-size: 14px;
+	}

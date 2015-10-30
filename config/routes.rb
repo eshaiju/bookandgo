@@ -30,6 +30,8 @@ Rails.application.routes.draw do
       collection do
         get 'upcoming'
         get 'todays'
+        get 'list'
+        get 'meating_rooms'
       end
     end
 

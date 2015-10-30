@@ -21,3 +21,5 @@
 //= require jquery.dataTables
 //= require jquery.dataTables.bootstrap
 //= require booking
+//= require fullcalendar
+
