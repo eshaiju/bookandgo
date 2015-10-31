@@ -49,7 +49,7 @@
         <label class="control-label" for="fromtime">Attendees:</label>
       </div>
       <div class="col-md-4 col-sm-8 col-lg-4 col-xs-10">
-        <%= f.select :invitees, options_for_select(@employees_list.collect { |user| [user.name.titleize, user.id] }, 1), {}, { multiple: true ,id: 'users_select' ,:class => "form-control"} %>
+        <%#= f.select :invitees, options_for_select(@employees_list.collect { |user| [user.name.titleize, user.id] }, 1), {}, { multiple: true ,id: 'users_select' ,:class => "form-control"} %>
       </div>
     </div>
     <div class="row row-padding">

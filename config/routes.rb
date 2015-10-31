@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   #       get 'sold'
   #     end
   #   end
-    resources :bookings, :only => [:index, :new, :create] do
+    resources :bookings, :only => [:index, :new, :create ,:destroy] do
       collection do
         get 'upcoming'
         get 'todays'

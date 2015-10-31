@@ -42,7 +42,7 @@
           </div>
         </div> -->
       <%#end%>
-   
+       
       <div id='calendar'></div>
     </div>
     <div class="col-md-4 foo book">
@@ -50,12 +50,13 @@
       your Room</h1>
       <div>
         <%if flash[:errors] %>
-        <div class="alert alert-danger fade in fade_alerts">
-          <strong></strong><%=flash[:errors]%>.
-        </div><%end %><%if flash[:success].present?%>
-        <div class="alert alert-success fade in fade_alerts">
-          <strong>Success!</strong> <%=flash[:success]%>.
-        </div><%end%>
+          <div class="alert alert-danger fade in fade_alerts">
+            <strong></strong><%=flash[:errors]%>.
+          </div><%end %><%if flash[:success].present?%>
+          <div class="alert alert-success fade in fade_alerts">
+            <strong>Success!</strong> <%=flash[:success]%>.
+          </div>
+        <%end%>
       </div><%= form_for @book_room do |f| %>
       <div>
         <%= f.select :meeting_room_id, options_for_select(@meeting_rooms_lists.collect { |room| [room.name.titleize, room.id] }, 1), {}, { id: 'rooms_select' ,:class => "form-control mrg-top"} %>
@@ -77,3 +78,51 @@
 </div>
 
 
+
+<!-- Modal -->
+<input type='hidden'  id ='current_user_id' value="<%= current_user.id%>">
+<div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="modal-header book">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"> <h1><span class="glyphicon glyphicon-hand-right"></span> &nbsp;Book
+      your Room</h1></h4>
+      </div>
+      <%= form_for @book_room do |f| %>
+        <div class="modal-body book">
+          <div class="">
+          <div>
+            <%if flash[:errors] %>
+            <div class="alert alert-danger fade in fade_alerts">
+              <strong></strong><%=flash[:errors]%>.
+            </div><%end %><%if flash[:success].present?%>
+            <div class="alert alert-success fade in fade_alerts">
+              <strong>Success!</strong> <%=flash[:success]%>.
+            </div><%end%>
+          </div>
+          <div>
+            <%= f.select :meeting_room_id, options_for_select(@meeting_rooms_lists.collect { |room| [room.name.titleize, room.id] }, 1), {}, { id: 'rooms_select_model' ,:class => "form-control mrg-top"} %>
+          </div>
+          <div class="row-padding">
+            <%= f.text_field :starts_at, :required => true, :id => 'datetimepicker_start_model', :placeholder => "Start's at",:class => "form-control mrg-top"%>
+          </div>
+          <div class="row-padding">
+            <%= f.text_field :ends_at, :required => true, :id => 'datetimepicker_end_model',:placeholder => "End's at", :class => "form-control mrg-top"%>
+          </div>
+          <div class="row-padding">
+            <%= f.text_area :agenda, :placeholder => "Agenda (Optional)", :class => "form-control mrg-top",id: 'agenda_model', :rows => "3"%>
+          </div>
+          <div class="row-padding mrg-btm">
+            
+          </div>
+          </div>
+        </div>
+        <div class="modal-footer book">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <%=f.submit 'Book The Room', :id => "book_room", :class => ["btn", "btn-danger book_room_btn"]  , data: {disable_with: "Checking Availabilty.."}%>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

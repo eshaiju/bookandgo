@@ -10,7 +10,6 @@ class BookingsController < ApplicationController
   def new
     @book_room = Booking.new
     @meeting_rooms_lists = MeetingRoom.all
-    @employees_list = User.all
   end
 
   def create
@@ -36,11 +35,13 @@ class BookingsController < ApplicationController
   end
 
   def list
-    @booked_room_list = Booking.where("starts_at >= ? AND starts_at <= ?", params[:start],params[:end])
+    starting_time = params[:start].to_time
+    ending_time = params[:end].to_time
+    @booked_room_list = Booking.where("starts_at >= ? AND starts_at <= ?", starting_time ,ending_time)
     .order(:starts_at).includes(:user)
     events = []
     @booked_room_list.each do |booked_room|
-      events << { :title => "#{booked_room.agenda.try(:titleize)} :: Booked By #{booked_room.user.try(:name).try(:titleize)}", :start => "#{booked_room.starts_at}",:end => "#{booked_room.ends_at}",  resources: "#{booked_room.meeting_room_id}" }
+      events << { id:booked_room.id, title: "#{booked_room.agenda.try(:titleize)} :: Booked By #{booked_room.user.try(:name).try(:titleize)}", start: "#{booked_room.starts_at}", end: "#{booked_room.ends_at}",  resources: "#{booked_room.meeting_room_id}",agenda: booked_room.agenda,user_id:booked_room.user_id }
     end
     render :text => events.to_json
   end
@@ -53,11 +54,17 @@ class BookingsController < ApplicationController
     render :text => rooms.to_json
   end
 
+  def destroy
+    @book_room = Booking.find(params[:id])
+    @book_room.destroy
+    redirect_to root_path
+  end
+
   private
 
   def booking_params
     params.require(:booking)
-      .permit(:meeting_room_id,:starts_at,:ends_at, :agenda, :invitees => [])
+      .permit(:id,:meeting_room_id,:starts_at,:ends_at, :agenda, :invitees => [])
       .merge( user_id: current_user.id,status: false)
   end
 end
