@@ -66,12 +66,18 @@
 
   <!-- Menu Toggle Script -->
   <script type="text/javascript">
+    <% if flash[:errors] %>
+      $.growl.error({ message:  "<%=flash[:errors]%>.",size: 'large'})
+    <%end %>
+    <%if flash[:success].present?%>
+      $.growl.notice({ message: "<%=flash[:success]%>.",size: 'large'})
+    <%end%>
+    
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
         $("#reverse-class").toggleClass("glyphicon glyphicon-arrow-left glyphicon glyphicon-arrow-right");
     });
   </script>
-
 </body>
 </html>

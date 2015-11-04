@@ -50,12 +50,14 @@
       your Room</h1>
       <div>
         <%if flash[:errors] %>
-          <div class="alert alert-danger fade in fade_alerts">
+          <!-- <div class="alert alert-danger fade in fade_alerts">
             <strong></strong><%=flash[:errors]%>.
-          </div><%end %><%if flash[:success].present?%>
-          <div class="alert alert-success fade in fade_alerts">
-            <strong>Success!</strong> <%=flash[:success]%>.
-          </div>
+          </div> -->
+        <%end %>
+        <%if flash[:success].present?%>
+            <!-- <div class="alert alert-success fade in fade_alerts">
+              <strong>Success!</strong> <%=flash[:success]%>.
+            </div> -->
         <%end%>
       </div><%= form_for @book_room do |f| %>
       <div>

@@ -9,7 +9,7 @@ class BookingsController < ApplicationController
 
   def new
     @book_room = Booking.new
-    @meeting_rooms_lists = MeetingRoom.all
+    @meeting_rooms_lists = MeetingRoom.all.order(:name)
   end
 
   def create
@@ -48,7 +48,7 @@ class BookingsController < ApplicationController
 
   def meating_rooms
     rooms = []
-    MeetingRoom.all.each do |room|
+    MeetingRoom.all.order(:name).each do |room|
       rooms << {id: room.id, name: "#{room.name.titleize}" }
     end
     render :text => rooms.to_json
@@ -57,6 +57,7 @@ class BookingsController < ApplicationController
   def destroy
     @book_room = Booking.find(params[:id])
     @book_room.destroy
+    flash[:success] = "successfully cancelled Meeting room Booking!!"
     redirect_to root_path
   end
 
